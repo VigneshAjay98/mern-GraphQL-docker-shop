@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mern-shop
+  labels:
+    app: mern-shop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mern-shop
+  template:
+    metadata:
+      labels:
+        app: mern-shop
+    spec:
+      volumes:
+      - name: app-dir
+        hostPath:
+          path: "/host_mnt/d/Projects/React/react-main"
+      containers:
+      - name: mern-shop
+        image: vigneshajay98/mern-shop
+        volumeMounts:
+        - name: app-dir
+          mountPath: /var/www/mern-shop
+        ports:
+        - containerPort: 5000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mern-shop-service
+spec:
+  selector:
+    app: mern-shop
+  ports:
+  - name: mern-shop-service-port
+    protocol: TCP
+    port: 5001
+    targetPort: 5000
+  type: LoadBalancer

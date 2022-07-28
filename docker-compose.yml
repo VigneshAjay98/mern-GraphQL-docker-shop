@@ -1,0 +1,17 @@
+version: '3.9'
+services:
+  mern-shop:
+    container_name: mern-shop
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes: 
+      - /d/Projects/React/react-main:/var/www/mern-shop
+    networks:
+      - mern-shop
+networks:
+  mern-shop:
+    name: mern-shop
+    driver: bridge
