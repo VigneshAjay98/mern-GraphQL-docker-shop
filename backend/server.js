@@ -12,8 +12,12 @@ const schema = require('./graphQL/schema.js')
 require('./database/config.js')
 require('./middlewares/auth.js')
 
-app.use(cors())
-app.use(express.static(path.resolve(`./frontend/public`)))
+var corsOptions = {
+    origin: 'http://localhost:3010',
+    credentials: true // <-- REQUIRED backend setting
+};
+app.use(cors(corsOptions));
+// app.use(express.static(path.resolve(`./frontend/public`)))
 app.use(session({
     secret: process.env.SESSION_SECRET,
     store: MongoStore.create({
